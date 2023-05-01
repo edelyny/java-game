@@ -1,0 +1,310 @@
+import java.util.Scanner;
+public class doubleOSeven
+{
+    public static Scanner scan = new Scanner (System.in);
+    public static void doubleOSeven () { //this is the base structure of the game
+        start(); //introduction/instructions
+        game(); //the actual game (the option to replay the game and the outro is included in this code)
+    }
+
+    public static void start(){
+        Scanner scan = new Scanner (System.in);
+        //intro part 1
+        System.out.println("WELCOME to Double-O-Seven"); 
+        System.out.println("This game is based on a real hand game that was inspired by James Bond. In this version, there are 7 rounds.");
+        
+        System.out.println("Press 0 then ENTER to continue...");
+        int confirmation = scan.nextInt();
+        scan.nextLine();
+        if (confirmation == 0){
+            System.out.println(" ");
+            //intro part 2
+            String text = "Hi there, you have been chosen to help catch bad guys while James hunts down Ernst Stavro Blofeld";
+            for (int i = 0; i < text.length(); i++){
+                System.out.print(text.charAt(i));
+                try{ Thread.sleep(30);} catch(Exception e){}
+            }
+            try{ Thread.sleep(100);} catch(Exception e){}
+            System.out.println();
+            text = "Boss told us to give you a (a)Gun, (w)Shield and some bullets to (d)Reload";
+            for (int i = 0; i < text.length(); i++){
+                System.out.print(text.charAt(i));
+                try{ Thread.sleep(30);} catch(Exception e){}
+            }   
+            System.out.println();
+            try{ Thread.sleep(1000);} catch(Exception e){}
+            //instructions
+            System.out.println("Remember! Gun < Shields     Gun > Reload");
+            try{ Thread.sleep(1000);} catch(Exception e){}
+            System.out.println("In order to shoot, you must reload as many times as you need or want to shoot in the future.");
+            System.out.println("If you shoot without enough reloads, then you get life points deducted, and your opponent would get that point.");
+            try{ Thread.sleep(1000);} catch(Exception e){}
+            System.out.println("a = Shield       w = Reload       d = Shoot");
+            System.out.println(" ");
+            try{ Thread.sleep(1000);} catch(Exception e){}
+            System.out.println("When the fight starts, it will say ''DOUBLE-O-SEVEN'', press either a, w or d, then click enter to submit your move");
+            System.out.println("Once you put your choice, your opponent will then display their action, and you will find out whether you have won that round or not.");
+            System.out.println(" ");
+            try{ Thread.sleep(1000);} catch(Exception e){}
+            System.out.println("The fight will end once someone gets defeated (points = 0)");
+            System.out.println("(everyone starts will 7 points)");
+            try{ Thread.sleep(1000);} catch(Exception e){}
+        }
+        else{ //if player does not answer the question, then the program will exit and you must reload
+            System.out.println("ERROR");
+            System.out.println("Please reload the program");
+            System.exit(2000);
+        }
+        int no = 0; // the number of times the player says that they don't understand
+        boolean comprehension = false;
+        //the while loop below is to make sure the player understands the instructions because to some people, the game may be complicated
+        while (comprehension == false){ 
+            System.out.println();
+            System.out.println("       Did you understand the instructions?");
+            System.out.println("       y = YES       n = NO");
+            String understand = scan.nextLine();
+            if (understand.equals("y")) { //if player did understand, then they can continue the game
+                System.out.println("       Great!");
+                comprehension = true;
+            }
+            else if (understand.equals("n")) { //if player did not understand the instructions, then t
+                if (no >= 1){ //if player does not understand the instructions more than once
+                    System.out.println("       Please re-read the instructions");
+                }
+                else { //the first time they say they dont understand... the code below is just a summary of the instructions / a re-worded version
+                    System.out.println("       a = Shield       w = Reload       d = Shoot");
+                    System.out.println("       Shield to protect from Shoot, Reload to have enough bullets to Shoot, Shoot to bring down opponent");
+                }
+                no++;
+            }
+            else { //if player does not answer the question
+                System.out.println("       ERROR");
+            }
+        }
+        System.out.println();
+        System.out.println();
+        System.out.println();
+        System.out.println();
+        System.out.println();
+        try{ Thread.sleep(400);} catch(Exception e){}
+    }
+    
+    public static void game(){
+        int r = 1; //starting round number
+        int player = 7; //player's starting number of life points
+        int opponent = 7; //opponent's starting number of life points (opponent = computer/program)
+        int oppReload = 0; //opponent's number of reloads
+        int playerReloads = 0; //player's number of reloads
+        System.out.println("POINTS       YOU: " + player+ "       OPPONENT: " + opponent); //letting the player know how many points/lives they have to start with
+        System.out.println(" ");
+        boolean round = true; // as long as round is true, then the game will continue
+        while (round == true){
+            System.out.println("Round #" + r); //stating the round number
+            System.out.println("DOUBLE-O-SEVEN!");
+            //PLAYER'S CHOICE
+                String action = scan.nextLine();
+            if (action.equals("a")){
+                action = "Shield";
+            }
+            else if (action.equals("w")){
+                action = "Reload";
+                playerReloads++;
+            }
+            else if (action.equals("d")){
+                action = "Shoot";
+                if (playerReloads == 0){ //player will be punished if they shoot without enough reloads (like shooting with no bullets)
+                    action = "X";
+                    player--;
+                    opponent++;
+                }
+            }
+            else {
+                action = "Your action is invalid";
+            }
+            
+            //outputting player's choice
+            System.out.println("YOU: " + action);
+        
+            //OPPONENT'S CHOICE
+            int randOne = (int)(Math.random()*3); //randomly generating the choices
+            String oppChoice = " ";
+            if (randOne == 0){
+                oppChoice = "Shield";
+            }
+            else if (randOne == 1) {
+                oppChoice = "Reload";
+                oppReload++;
+            }
+            else if (randOne == 2) {
+                if (oppReload == 0){
+                    //this while loop makes sure the program doesn't output shoot if they don't have enough reloads
+                    while (oppReload == 0){ 
+                        int randTwo = (int)(Math.random()*1);
+                        if (randTwo == 1){
+                            oppChoice = "Shield";
+                        }
+                        else{
+                            oppChoice = "Reload";
+                            oppReload++;
+                        }
+                    }
+                }
+                else if (oppReload > 0){ //if they do have enough reloads, then it stays shoot
+                    oppChoice = "Shoot";
+                }
+            } 
+                
+            //outputting the opponent's choice
+            System.out.println("OPPONENT: " + oppChoice);
+                
+            //POINTS
+            if (action.equals(oppChoice)){ //both shoot = both lose
+                if (action.equals("Shoot")){
+                    try{ Thread.sleep(250);} catch(Exception e){}
+                    player--;
+                    opponent--;
+                    playerReloads--;
+                    oppReload--;
+                    System.out.println("O     .....   O  ");
+                    System.out.println(" /|\\        \\|/  ");
+                    System.out.println("  |          |   ");
+                    System.out.println(" / \\        / \\ ");
+                    System.out.println(" YOU      OPPONENT");
+                }
+                else if (action.equals("Reload")){ //both reload
+                    try{ Thread.sleep(250);} catch(Exception e){}
+                    System.out.println("No one gets points");
+                    System.out.println("  O          O  ");
+                    System.out.println(" /|\\        /|\\ ");
+                    System.out.println("  |          |  ");
+                    System.out.println(" / \\        / \\");
+                    System.out.println(" YOU      OPPONENT");
+                    System.out.println("No one gets points");
+                }
+                else if (action.equals("Shield")){ //both shield
+                    try{ Thread.sleep(250);} catch(Exception e){}
+                    System.out.println("  O ||    || O");
+                    System.out.println(" /|\\||    ||\\|/");
+                    System.out.println("  | ||    || |");
+                    System.out.println(" / \\        / \\");
+                    System.out.println(" YOU      OPPONENT");
+                    System.out.println("No one gets points");
+                }
+            }
+            else if (action.equals("Shoot") && oppChoice.equals("Shield")){ //player shoot - opponent shield
+                try{ Thread.sleep(250);} catch(Exception e){}
+                System.out.println("OPPONENT: You missed. HAHA");
+                playerReloads--;
+                System.out.println("  O    ...|| O");
+                System.out.println(" /|\\      ||\\|/");
+                System.out.println("  |       || |");
+                System.out.println(" / \\        / \\");
+                System.out.println(" YOU      OPPONENT");
+            }
+            else if (oppChoice.equals("Shoot") && action.equals("Shield")){ //player shield - opponent shoot
+                try{ Thread.sleep(250);} catch(Exception e){}
+                System.out.println("YOU: HA, I blocked it");
+                oppReload--;
+                System.out.println("  O  ||...   O");
+                System.out.println(" /|\\ ||     \\|/");
+                System.out.println("  |  ||      |");
+                System.out.println(" / \\        / \\");
+                System.out.println(" YOU      OPPONENT");
+            }
+            else if (action.equals("Shoot") && oppChoice.equals("Reload")) { //player shoot - opponent reload
+                try{ Thread.sleep(250);} catch(Exception e){}
+                System.out.println("YOU: BAAM! I got you!");
+                playerReloads--;
+                opponent--;
+                System.out.println("  O    .....  O");
+                System.out.println(" \\|/        /|\\");
+                System.out.println("  |          |");
+                System.out.println(" / \\        / \\");
+                System.out.println(" YOU      OPPONENT");
+            }
+            else if (oppChoice.equals("Shoot") && action.equals("Reload")){ //player reload - opponent shoot
+                try{ Thread.sleep(250);} catch(Exception e){}
+                System.out.println("OPPONENT: Give up! You're gonna lose!");
+                oppReload--;
+                player--;
+                System.out.println(" O   .....   O");
+                System.out.println(" /|\\        \\|/");
+                System.out.println("  |          |");
+                System.out.println(" / \\        / \\");
+                System.out.println(" YOU      OPPONENT");
+            }
+            else if (action.equals("Reload")&&oppChoice.equals("Shield")){ //player reload - opponent shield
+                try{ Thread.sleep(250);} catch(Exception e){}
+                System.out.println("No one gets points");
+                System.out.println("  O       || O");
+                System.out.println(" /|\\      ||\\|/");
+                System.out.println("  |       || |");
+                System.out.println(" / \\        / \\");
+                System.out.println(" YOU      OPPONENT");
+            }
+            else if (oppChoice.equals("Reload")&&action.equals("Shield")){ //player shield - opponent reload
+                try{ Thread.sleep(250);} catch(Exception e){}
+                System.out.println("No one gets points");
+                System.out.println("  O ||       O");
+                System.out.println(" \\|/||      /|\\");
+                System.out.println("  | ||       |");
+                System.out.println(" / \\        / \\");
+                System.out.println(" YOU      OPPONENT");
+            }
+            else { 
+                if (oppChoice.equals("Shoot")){ //player nothing - opponent shoot
+                    player++;
+                    oppReload--;
+                }
+                else if (oppChoice.equals("Reload")){ //player nothing - opponent reload
+                    oppReload--;
+                }
+            }
+            r++;
+            System.out.println(" ");
+            System.out.println("STATUS       Reloads: " + playerReloads);
+            System.out.println("LIFE       YOU: " + player + "       OPPONENT: " + opponent);
+            System.out.println(" ");
+            System.out.println(" ");
+            System.out.println(" ");
+            if (player == 0){
+                round = false;
+                System.out.println("Would you like to replay this game? y/n");
+                String replay = scan.nextLine();
+                if (replay.equals("y")){
+                    System.out.println("Get ready!");
+                    System.out.println(" ");
+                    round = true;
+                }
+            }
+            else if (opponent == 0){
+                System.out.println("Would you like to replay this game? y/n");
+                String replay = scan.nextLine();
+                if (replay.equals("y")){
+                    System.out.println("Get ready!");
+                    System.out.println(" ");
+                    round = true;
+                }
+            }
+            else {
+                round = true;
+            }
+        }
+        if (player > opponent){
+            System.out.println("GREAT JOB! Come back soon to help Mr.Bond!");
+        }
+        else {
+            try{ Thread.sleep(200);} catch(Exception e){}
+            System.out.println("Agent 1: We probably need to reconsider who we hire...");
+            try{ Thread.sleep(200);} catch(Exception e){}
+            System.out.println("Agent 2: SHHHHH, they're still here! Good job today, but better luck next time");
+            try{ Thread.sleep(200);} catch(Exception e){}
+            System.out.println("Agent 1: hehe, I mean thank you for you effort :)");
+            try{ Thread.sleep(250);} catch(Exception e){}
+            round = false;
+            System.out.println(" ");
+            System.out.println("Thanks for playing!");
+        }
+        scan.nextLine();
+    }
+}
