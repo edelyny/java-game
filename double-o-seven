@@ -269,28 +269,47 @@ public class doubleOSeven
             System.out.println(" ");
             if (player == 0){
                 round = false;
+                System.out.println("YOU LOSE");
+                System.out.println();
                 System.out.println("Would you like to replay this game? y/n");
                 String replay = scan.nextLine();
                 if (replay.equals("y")){
                     System.out.println("Get ready!");
                     System.out.println(" ");
                     round = true;
+                    player = 7;
+                    opponent = 7;
+                    r = 1;
+                    playerReloads = 0;
+                    oppReload = 0;
+                }
+                else if (replay.equals("n")){
+                    System.out.println("You chose not to replay");
+                    round = false;
                 }
             }
             else if (opponent == 0){
+                System.out.println("YOU WIN");
                 System.out.println("Would you like to replay this game? y/n");
                 String replay = scan.nextLine();
                 if (replay.equals("y")){
                     System.out.println("Get ready!");
                     System.out.println(" ");
                     round = true;
+                    player = 7;
+                    opponent = 7;
+                    r = 1;
+                    playerReloads = 0;
+                    oppReload = 0;
                 }
-            }
-            else {
-                round = true;
+                else if (replay.equals("n")){
+                    System.out.println("You chose not to replay");
+                    round = false;
+                }
             }
         }
         if (player > opponent){
+            System.out.println();
             System.out.println("GREAT JOB! Come back soon to help Mr.Bond!");
         }
         else {
